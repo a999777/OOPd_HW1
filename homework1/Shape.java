@@ -19,26 +19,27 @@ public abstract class Shape implements Cloneable {
     //  this.location.
 
     //Rep. Invariant:
-    //  this.color mustn't be null
+    //  this.color != null
     //  this.location has to be a point with non-negative integer values
 
     /**
      * @effects Initializes this with a a given location and color.
      */
     public Shape(Point location, Color color) {
-        this.location = (Point)location.clone();
+        this.location = new Point(location);
         this.color = color;
         checkRep();
     }
+
 
     /**
      * @return the top left corner of the bounding rectangle of this.
      */
     public Point getLocation() {
         checkRep();
-        // Point pointToReturn = new Point(this.location);
-        Point pointToReturn = (Point)this.location.clone();//FIXME: is it okay? or should we use new and really
-        // create a new point?
+        Point pointToReturn = new Point(this.location);
+        //Point pointToReturn = (Point)this.location.clone();//FIXME: is it okay? or should we use new and really
+        // FIXME: Decide which one of these we will do
         checkRep();
         return pointToReturn;
     }
@@ -91,6 +92,7 @@ public abstract class Shape implements Cloneable {
     public Color getColor() {
         checkRep();
         return color;
+        //Since color is immutable, this is fine
     }
 
 
@@ -118,7 +120,7 @@ public abstract class Shape implements Cloneable {
     public Object clone() {
         // TODO (BOM): Implement this method
         checkRep();
-        Shape clonedShape = null;
+        Shape clonedShape;
         // trying to perform clone
         try{
             clonedShape = (Shape)super.clone();
@@ -126,8 +128,9 @@ public abstract class Shape implements Cloneable {
             e.printStackTrace();
             return null;
         }
-        // clone succeded with shallow copy, need to update location
-        clonedShape.location = (Point)location.clone();
+        // clone succeeded with shallow copy, need to update location
+        //clonedShape.location = (Point)location.clone(); FIXME: I still don't know if this should be removed
+        clonedShape.location = new Point(location);
         checkRep();
         return clonedShape;
     }
@@ -138,6 +141,8 @@ public abstract class Shape implements Cloneable {
      * @effects Throws AssertionError if one of the conditions required in the Rep. Invariant is violated
      */
     private void checkRep() {
-        assert(this.color != null && this.location.getX() >=0 && this.location.getY() >= 0);
+        assert(this.color != null):"Color is null!";
+        assert(this.location.getX() >= 0):"Illegal X value for shape!";
+        assert(this.location.getY() >= 0):"Illegal Y value for shape!";
     }
 }

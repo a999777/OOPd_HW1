@@ -2,7 +2,6 @@ package homework1;
 
 import java.awt.*;
 import java.util.Random;
-//import java.awt.Shape;
 
 
 /**
@@ -22,8 +21,8 @@ public abstract class LocationChangingShape extends homework1.Shape implements h
 
     //Abs. Function:
     //  Represents a location changing shape that has a color this.color and has a bounding rectangle whose top left
-    //  corner is at this.location. The shape also has random (x,y) velocities
-
+    //  corner is at this.location. The shape also has random (x,y) velocities stored in this.velocityX and
+    //  this.velocityY.
 
     //Rep. Invariant:
     //  this.color mustn't be null
@@ -39,18 +38,22 @@ public abstract class LocationChangingShape extends homework1.Shape implements h
      */
     LocationChangingShape(Point location, Color color) {
         super(location, color);
+
+        //Initializing a random object and randomly picking velocities for X and Y
         Random random = new Random();
         this.velocityX = random.nextInt(MAX_VELOCITY - MIN_VELOCITY + 1) + MIN_VELOCITY;
         this.velocityY = random.nextInt(MAX_VELOCITY - MIN_VELOCITY + 1) + MIN_VELOCITY;
-        // make sure that x and y velocities are not equal to zero
-        while(velocityY == NO_VELOCITY){
+
+        //Making sure that x and y velocities are not equal to zero, if they are we keep drawing
+        while(this.velocityY == NO_VELOCITY){
             this.velocityY = random.nextInt(MAX_VELOCITY - MIN_VELOCITY + 1) + MIN_VELOCITY;
         }
-        while(velocityX == NO_VELOCITY){
+        while(this.velocityX == NO_VELOCITY){
             this.velocityX = random.nextInt(MAX_VELOCITY - MIN_VELOCITY + 1) + MIN_VELOCITY;
         }
         checkRep();
     }
+
 
     /**
      * @return the horizontal velocity of this.
@@ -60,6 +63,7 @@ public abstract class LocationChangingShape extends homework1.Shape implements h
         return this.velocityX;
     }
 
+
     /**
      * @return the vertical velocity of this.
      */
@@ -67,6 +71,7 @@ public abstract class LocationChangingShape extends homework1.Shape implements h
         checkRep();
         return this.velocityY;
     }
+
 
     /**
      * @requires -5 <= velocityX <= 5 && -5 <= velocityY <= 5 && velocityX != 0 && velocityY != 0
@@ -79,8 +84,8 @@ public abstract class LocationChangingShape extends homework1.Shape implements h
         this.velocityX = velocityX;
         this.velocityY = velocityY;
         checkRep();
-
     }
+
 
     /**
      * @modifies this
@@ -96,10 +101,10 @@ public abstract class LocationChangingShape extends homework1.Shape implements h
      *          }
      *          p = p + v
      */
-
     public void step(Rectangle bound) {
         checkRep();
         Point p = getLocation();
+        //FIXME: r is unused because of our way of calculating. Maybe remove it?
         Rectangle r = getBounds();
         if(p.getX() + this.velocityX > bound.getX() + bound.getWidth() || p.getX() + this.velocityX < bound.getX()){
             this.setVelocity(-this.getVelocityX(), this.getVelocityY());
@@ -112,24 +117,32 @@ public abstract class LocationChangingShape extends homework1.Shape implements h
         this.setLocation(newLocation);
         checkRep();
     }
+
+
     /**
      * @requires None
      * @modifies Nothing
      * @effects Throws AssertionError if one of the conditions required in the Rep. Invariant is violated
      */
-
     private void checkRep() {
-        assert(_checkVelocity(this.velocityX) && _checkVelocity(this.velocityY));
+        assert(_checkVelocity(this.velocityX)):"The X velocity is illegal!";
+        assert(_checkVelocity(this.velocityY)):"The Y velocity is illegal!";
     }
 
+
     /**
-    * @return true only if -5 <= velocity <= 5 && velocity != 0, false otherwise
+     * @requires None
+     * @modifies Nothing
+     * @effects Return true if -5 <= velocity <=5 && velocity != 0, false otherwise
      */
     private boolean _checkVelocity(int velocity){
         return velocity != NO_VELOCITY && velocity >= MIN_VELOCITY && velocity <= MAX_VELOCITY;
     }
 
+
     /**
+     * @requires None
+     * @modifies Nothing
      * @effects Creates and returns a copy of this.
      */
     public LocationChangingShape clone() {

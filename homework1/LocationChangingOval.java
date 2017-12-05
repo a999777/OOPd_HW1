@@ -2,29 +2,44 @@ package homework1;
 
 import java.awt.*;
 
+
 /**
- * //TODO: add spec
+ * A LocationChangingOval is an oval shape that can change its location using its step() method.
+ * As an oval, it has a width and height that determines its shape.
+ * A LocationChangingOval also has a velocity property that determines the speed of location changing.
+ * Thus, a typical LocationChangingOval consists of the following set of
+ * properties: {location, color, size, velocity}
  */
-public class LocationChangingOval extends homework1.LocationChangingShape{
+public class LocationChangingOval extends LocationChangingShape{
 
-    // TODO (BOM): Write Abstraction Function
+    //Abs. Function:
+    //  Represents a location changing oval that has a color this.color and has a bounding rectangle whose top left
+    //  corner is at this.location. The oval has a width and height which are stored in this.size.
+    //  In addition, the oval has a velocity both in the x and y axes (represented by this.velocityX and this.velocityY)
 
-    // TODO (BOM): Write Representation Invariant
+    //Rep. Invariant:
+    //  this.color mustn't be null
+    //  this.location has to be a point with non-negative integer values
+    //  this.velocityX and this.velocityY should be integers between 5 and -5 inclusive and different from zero
+    //  this.size.width and this.size.height should be non negative integers.
+
     private Dimension size;
 
     /**
-     * //TODO: add spec
+     * @effects Initializes an oval with bounding rectangle at location, color color, width dimension.width and height
+     *          dimension.height.
      */
     LocationChangingOval(Point location, Color color, Dimension dimension) {
         super(location, color);
-        this.size = (Dimension)dimension.clone();
+        //this.size = (Dimension)dimension.clone(); FIXME no more clones
+        this.size = new Dimension(dimension);
         checkRep();
     }
 
+
     /**
      * @modifies this
-     * @effects Resizes this so that its bounding rectangle has the specified
-     *          dimension.
+     * @effects Resizes this so that its bounding rectangle has the specified dimension.
      *          If this cannot be resized to the specified dimension =>
      *          this is not modified, throws ImpossibleSizeException
      *          (the exception suggests an alternative dimension that is
@@ -34,11 +49,13 @@ public class LocationChangingOval extends homework1.LocationChangingShape{
     public  void setSize(Dimension dimension) throws homework1.ImpossibleSizeException{
         checkRep();
         if(dimension.getHeight() <= 0 || dimension.getWidth() <= 0) {
-            throw homework1.ImpossibleSizeException(this.size);//Fixme make sure default dimension is ok
+            throw new ImpossibleSizeException(this.size);           //Fixme make sure default dimension is ok
         }
         this.size = new Dimension(dimension);
         checkRep();
     }
+
+
     /**
      * @return the bounding rectangle of this.
      */
@@ -53,15 +70,16 @@ public class LocationChangingOval extends homework1.LocationChangingShape{
      * @modifies Nothing
      * @effects Throws AssertionError if one of the conditions required in the Rep. Invariant is violated
      */
-
     private void checkRep() {
-        assert(this.size.width > 0 && this.size.height > 0);
+
+        assert(this.size.width > 0):"Illegal width for an oval!";
+        assert(this.size.height > 0):"Illegal height for an oval!";
     }
+
 
     /**
      * @effects Creates and returns a copy of this.
      */
-    //TODO: implement clone
     public LocationChangingOval clone() {
         checkRep();
         LocationChangingOval oval;
@@ -70,16 +88,25 @@ public class LocationChangingOval extends homework1.LocationChangingShape{
         checkRep();
         return oval;
     }
-    //TODO: spec
+
+
+    /**
+     * @modifies g
+     * @effects Draws this onto g.
+     */
     @Override
     public  void draw(Graphics g){
         checkRep();
+
+        //Get parameters ready to be drawn
         g.setColor(this.getColor());
         int x, y, width, height;
         x = (int)getLocation().getX();
         y = (int)getLocation().getY();
         width = (int)size.getWidth();
         height = (int)size.getHeight();
+
+        //Use library function do draw the oval to g
         g.fillOval(x, y, width, height);
         checkRep();
     }

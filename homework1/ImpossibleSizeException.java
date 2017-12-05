@@ -6,32 +6,28 @@ import java.awt.*;
  * ImpossibleSizeException is an exception that is thrown when one is trying to set incompatible size to a shape object
  * a set of properties: {_alternativeDim}
  */
-public class ImpossibleSizeException extends Exception{ //FIXME: Maybe something more specific?
+public class ImpossibleSizeException extends Exception{
 
-    private Dimension _alternativeDim;
+    private Dimension alternativeDim;
+
     /**
-     * @requires dimension is not null
-     * @effects Initializes this with a a given dimension
+     * @requires dimension - the current size for the shape
+     * @modifies Nothing
+     * @effects Initializes this with a legal dimension
      */
-
     public ImpossibleSizeException(Dimension dimension) {
-        _alternativeDim = new Dimension(dimension);
-        if(dimension.height < 0){
-            _alternativeDim.height = 0;
-        }
-        if(dimension.width < 0){
-            _alternativeDim.width = 0;
-        }
-
-        //FIXME: This way the exception will always suggest the same size. Is it alright?
+        //FIXME: Not sure we understand this well enough. We expect to get the current size and then return the current
+        //FIXME: size as the alternative, "legal" size
+        alternativeDim = new Dimension(dimension);
     }
 
     /**
-     *
-     * @return default dimension
+     * @requires None
+     * @modifies Nothing
+     * @effects Returns the size we had before trying to change it to an illegal size
      */
     public Dimension getAlternativeDim() {
-        Dimension dimToReturn = new Dimension(_alternativeDim);
+        Dimension dimToReturn = new Dimension(alternativeDim);
         return dimToReturn;
     }
 
