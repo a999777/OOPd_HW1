@@ -7,7 +7,7 @@ import java.awt.*;
  */
 public class AngleChangingSector extends Shape implements Animatable {
 
-    // TODO (BOM): Write Abstraction Function
+    // TODO (BOM): Writeeeee Abstraction Function
 
     // TODO (BOM): Write Representation Invariant
     private Dimension size;
