@@ -154,3 +154,4 @@ public abstract class LocationChangingShape extends homework1.Shape implements h
         return shape;
     }
 }
+

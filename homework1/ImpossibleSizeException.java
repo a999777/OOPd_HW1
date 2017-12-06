@@ -4,7 +4,7 @@ import java.awt.*;
 
 /**
  * ImpossibleSizeException is an exception that is thrown when one is trying to set incompatible size to a shape object
- * a set of properties: {_alternativeDim}
+ * a set of properties: {alternativeDim}
  */
 public class ImpossibleSizeException extends Exception{
 

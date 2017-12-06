@@ -37,9 +37,9 @@ public abstract class ColorAndLocationChangingShape extends homework1.LocationCh
     /**
      * @modifies this
      * @effects Changes the location of this as described in the specification
-     *          of LocationChangingShape.step(Rectangle bound) &&
-	 *			if the velocity of this needs to be changed (as described in LocationChangingShape.step(Rectangle bound)),
-	 *			changes the color of this to a new random color;
+     *          of LocationChangingShape.step(Rectangle bound) and if the velocity of this needs to be changed
+	 *			(as described in LocationChangingShape.step(Rectangle bound)), changes the color of this to a new
+     *			random color;
 	 *			else, does not change the color of this.
      */
     public void step(Rectangle bound) {
@@ -47,6 +47,8 @@ public abstract class ColorAndLocationChangingShape extends homework1.LocationCh
         int velocityX = this.getVelocityX();
         int velocityY = this.getVelocityY();
         super.step(bound);
+
+        //If we get a different speed after calling the parent class' step(), we also need to randomize a color
         if(this.getVelocityX() != velocityX || this.getVelocityY() != velocityY){
             Random random = new Random();
             float r = random.nextFloat();
@@ -65,9 +67,11 @@ public abstract class ColorAndLocationChangingShape extends homework1.LocationCh
      */
     //TODO: check if need to add something to checkRep
     private void checkRep() {
-        assert(this.size.width > 0 && this.size.height > 0);
+        assert(this.size.width > 0):"Illegal width! Should be bigger than 0";
+        assert(this.size.height > 0):"Illegal height! Should be bigger than 0";
     }
 
+    //FIXME: Consider if to remove at a latter stage, since this clone is identical to the parent's clone
 //    /**
 //     * @effects Creates and returns a copy of this.
 //     */
@@ -78,4 +82,5 @@ public abstract class ColorAndLocationChangingShape extends homework1.LocationCh
 //        checkRep();
 //        return shape;
 //    }
+
 }
