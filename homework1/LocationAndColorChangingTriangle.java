@@ -2,19 +2,38 @@ package homework1;
 
 import java.awt.*;
 
+/**
+ * A LocationAndColorChangingTriangle is a triangle that can change its location using its step()
+ * method. A LocationAndColorChangingTriangle has a velocity property that determines the speed
+ * of location changing.
+ * Thus, a typical LocationAndColorChangingTriangle consists of the following set of
+ * properties: {location, color, size, velocity}
+ */
+
 public class LocationAndColorChangingTriangle extends  homework1.ColorAndLocationChangingShape{
 
-    // TODO (BOM): Write Abstraction Function
+    //Abs. Function:
+    // Represents a location and color changing triangle that has a color this.color and has a bounding rectangle whose
+    // top left corner is at this.location. The triangle also has random (x,y) velocities. The color is changed upon
+    // a call to step functions
 
-    // TODO (BOM): Write Representation Invariant
+
+    //Rep. Invariant:
+    //  this.color mustn't be null
+    //  this.location has to be a point with non-negative integer values
+    //  this.velocityX and this.velocityY should be integers between 5 and -5 inclusive and different from zero
+    //  this.size must have positive height and width
     private Dimension size;
 
     /**
-     * //TODO: add spec
+     * @effects Initializes this with a a given location, color and dimension. Each
+     *          of the horizontal and vertical velocities of the new
+     *          object is set to a random integral value i such that
+     *          i!=0, i is greater or equal then -5 and smaller or equal to 5
      */
     LocationAndColorChangingTriangle(Point location, Color color, Dimension dimension) {
         super(location, color);
-        this.size = (Dimension)dimension.clone();
+        this.size = this.size = new Dimension(dimension);
         checkRep();
     }
 
@@ -36,6 +55,7 @@ public class LocationAndColorChangingTriangle extends  homework1.ColorAndLocatio
         this.size = new Dimension(dimension);
         checkRep();
     }
+
     /**
      * @return the bounding rectangle of this.
      */
@@ -56,6 +76,8 @@ public class LocationAndColorChangingTriangle extends  homework1.ColorAndLocatio
     }
 
     /**
+     * @requires None
+     * @modifies Nothing
      * @effects Creates and returns a copy of this.
      */
     public LocationAndColorChangingTriangle clone() {
@@ -66,7 +88,13 @@ public class LocationAndColorChangingTriangle extends  homework1.ColorAndLocatio
         checkRep();
         return triangle;
     }
-    //TODO: spec
+
+    /**
+     * @requires None
+     * @modifies g
+     * @effects Draws this onto g - the color is this.color, triangle's right angle is at this.location
+     *
+     */
     @Override
     public  void draw(Graphics g){
         checkRep();

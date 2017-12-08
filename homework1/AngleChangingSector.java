@@ -3,18 +3,26 @@ package homework1;
 import java.awt.*;
 
 /**
- * //TODO: add spec
+ * A AngleChangingSector is an oval that can change its sector angle using its step()
+ * method. Thus, a typical AngleChangingSector consists of the following set of
+ * properties: {location, color, size, initialDeg, currentDeg}
  */
 public class AngleChangingSector extends Shape implements Animatable {
 
-    // TODO (BOM): Writeeeee Abstraction Function
+    //Abs. Function:
+    // Represents an angle changing oval that has a color this.color and has a bounding rectangle whose
+    // top left corner is at this.location.
 
-    // TODO (BOM): Write Representation Invariant
+
+    //Rep. Invariant:
+    //  this.color mustn't be null
+    //  this.location has to be a point with non-negative integer values
+    //  this.size must have positive height and width
     private Dimension size;
     private int initialDeg, currentDeg;
 
     /**
-     * //TODO: add spec
+     * @effects Initializes this with a a given location, color, dimension and initial degree.
      */
     AngleChangingSector(Point location, Color color, Dimension dimension, int initialDeg, int currentDeg) {
         super(location, color);
@@ -64,7 +72,6 @@ public class AngleChangingSector extends Shape implements Animatable {
     /**
      * @effects Creates and returns a copy of this.
      */
-    //TODO: implement clone
     public AngleChangingSector clone() {
         checkRep();
         AngleChangingSector sector;
@@ -88,7 +95,12 @@ public class AngleChangingSector extends Shape implements Animatable {
         checkRep();
     }
 
-    //TODO: spec
+    /**
+     * @requires None
+     * @modifies g
+     * @effects Draws this onto g - the color is this.color, ovals initial degree and current degree
+     *
+     */
     @Override
     public  void draw(Graphics g){
         checkRep();
