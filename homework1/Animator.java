@@ -2,6 +2,9 @@ package homework1;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.*;
 
 /**
@@ -28,6 +31,8 @@ public class Animator extends JFrame implements ActionListener {
     // shapes that have been added to this
 
     // TODO (BOM): Add and initialize a container of shapes called shapes.
+    private Set<Shape> Shapes = new HashSet<>();
+    //FIXME: Added, not sure the data structure is the correct one
 
 
     /**
@@ -51,7 +56,6 @@ public class Animator extends JFrame implements ActionListener {
                 if (animationCheckItem.isSelected()) {
                     // TODO (BOM): Add code for making one animation step for all
                     //       shapes in this
-
 
 
                     repaint();  // make sure that the shapes are redrawn

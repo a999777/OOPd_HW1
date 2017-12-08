@@ -124,7 +124,7 @@ public abstract class LocationChangingShape extends homework1.Shape implements h
      * @modifies Nothing
      * @effects Throws AssertionError if one of the conditions required in the Rep. Invariant is violated
      */
-    private void checkRep() {
+    protected void checkRep() {
         assert(_checkVelocity(this.velocityX)):"The X velocity is illegal!";
         assert(_checkVelocity(this.velocityY)):"The Y velocity is illegal!";
     }

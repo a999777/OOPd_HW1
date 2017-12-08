@@ -9,7 +9,7 @@ import java.util.Random;
  * Thus, a typical LocationChaningShape consists of the following set of
  * properties: {location, color, shape, size, velocity}
  */
-public abstract class ColorAndLocationChangingShape extends homework1.LocationChangingShape {
+public abstract class ColorAndLocationChangingShape extends LocationChangingShape {
 
     //Abs. Function:
     // Represents a location changing shape that has a color this.color and has a bounding rectangle whose top left
@@ -65,10 +65,11 @@ public abstract class ColorAndLocationChangingShape extends homework1.LocationCh
      * @modifies Nothing
      * @effects Throws AssertionError if one of the conditions required in the Rep. Invariant is violated
      */
-    //TODO: check if need to add something to checkRep
-    private void checkRep() {
-        assert(this.size.width > 0):"Illegal width! Should be bigger than 0";
-        assert(this.size.height > 0):"Illegal height! Should be bigger than 0";
+    //FIXME: Again, checkRep() here is identical to the one of the parent class
+    protected void checkRep() {
+//        assert(this.size.width > 0):"Illegal width! Should be bigger than 0";
+//        assert(this.size.height > 0):"Illegal height! Should be bigger than 0";
+        super.checkRep();
     }
 
     //FIXME: Consider if to remove at a latter stage, since this clone is identical to the parent's clone

@@ -48,7 +48,7 @@ public class LocationChangingNumberedOval extends  homework1.LocationChangingOva
      * @modifies Nothing
      * @effects Throws AssertionError if one of the conditions required in the Rep. Invariant is violated
      */
-    private void checkRep() {
+    protected void checkRep() {
         assert(this.idNumber >= 1):"Illegal Id number! Must be bigger than 1";
     }
 
@@ -58,13 +58,16 @@ public class LocationChangingNumberedOval extends  homework1.LocationChangingOva
      * @effects Draws this onto g.
      */
     @Override
-    public  void draw(Graphics g){
+    public void draw(Graphics g){
         checkRep();
         super.draw(g);
         Rectangle r = this.getBounds();
         //Calculating the location where the number should be displayed(center of the oval)
         int xCenter = (int)((r.getX() + r.getWidth())/2);
         int yCenter = (int)((r.getY() + r.getHeight())/2);
+        //Changing the color so the number will be printed in a different color
+
+        g.setColor(this.getColor());
         g.drawString(idNumber.toString(), xCenter, yCenter);
         checkRep();
     }
