@@ -66,10 +66,12 @@ public abstract class ColorAndLocationChangingShape extends LocationChangingShap
      * @effects Throws AssertionError if one of the conditions required in the Rep. Invariant is violated
      */
     //FIXME: Again, checkRep() here is identical to the one of the parent class
-    protected void checkRep() {
+    private void checkRep() {
+        assert(_checkVelocity(this.getVelocityX())):"The X velocity is illegal!";
+        assert(_checkVelocity(this.getVelocityY())):"The Y velocity is illegal!";
 //        assert(this.size.width > 0):"Illegal width! Should be bigger than 0";
 //        assert(this.size.height > 0):"Illegal height! Should be bigger than 0";
-        super.checkRep();
+//        super.checkRep();
     }
 
     //FIXME: Consider if to remove at a latter stage, since this clone is identical to the parent's clone

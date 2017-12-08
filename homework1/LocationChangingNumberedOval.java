@@ -1,6 +1,7 @@
 package homework1;
 
 import java.awt.*;
+import java.util.Random;
 
 
 /**
@@ -48,7 +49,7 @@ public class LocationChangingNumberedOval extends  homework1.LocationChangingOva
      * @modifies Nothing
      * @effects Throws AssertionError if one of the conditions required in the Rep. Invariant is violated
      */
-    protected void checkRep() {
+    private void checkRep() {
         assert(this.idNumber >= 1):"Illegal Id number! Must be bigger than 1";
     }
 
@@ -63,11 +64,10 @@ public class LocationChangingNumberedOval extends  homework1.LocationChangingOva
         super.draw(g);
         Rectangle r = this.getBounds();
         //Calculating the location where the number should be displayed(center of the oval)
-        int xCenter = (int)((r.getX() + r.getWidth())/2);
-        int yCenter = (int)((r.getY() + r.getHeight())/2);
+        int xCenter = (int)((r.getX() + r.getWidth()/2));
+        int yCenter = (int)((r.getY() + r.getHeight()/2));
         //Changing the color so the number will be printed in a different color
-
-        g.setColor(this.getColor());
+        g.setColor(this.randomizeTextColor(g));
         g.drawString(idNumber.toString(), xCenter, yCenter);
         checkRep();
     }
@@ -83,5 +83,24 @@ public class LocationChangingNumberedOval extends  homework1.LocationChangingOva
         oval.idNumber = this.idNumber;
         checkRep();
         return oval;
+    }
+
+    /**
+     * @requires The Graphics is not null
+     * @modifies Nothing
+     * @effects Returns the color we want to set our text to
+     */
+    private Color randomizeTextColor(Graphics g) {
+        //Setting the default text color to black
+        Color textColor = new Color(0, 0, 0);
+        //Making sure the text color is different from the oval's color
+        while(textColor.equals(this.getColor())) {
+            Random random = new Random();
+            float red = random.nextFloat();
+            float green = random.nextFloat();
+            float blue = random.nextFloat();
+            textColor = new Color(red, green, blue);
+        }
+        return textColor;
     }
 }

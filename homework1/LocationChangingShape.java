@@ -11,7 +11,7 @@ import java.util.Random;
  * Thus, a typical LocationChangingShape consists of the following set of
  * properties: {location, color, shape, size, velocity}
  */
-public abstract class LocationChangingShape extends homework1.Shape implements homework1.Animatable {
+public abstract class LocationChangingShape extends Shape implements Animatable {
 
     private static final int MIN_VELOCITY = -5;
     private static final int MAX_VELOCITY = 5;
@@ -51,7 +51,7 @@ public abstract class LocationChangingShape extends homework1.Shape implements h
         while(this.velocityX == NO_VELOCITY){
             this.velocityX = random.nextInt(MAX_VELOCITY - MIN_VELOCITY + 1) + MIN_VELOCITY;
         }
-        checkRep();
+        this.checkRep();
     }
 
 
@@ -106,10 +106,10 @@ public abstract class LocationChangingShape extends homework1.Shape implements h
         Point p = getLocation();
         //FIXME: r is unused because of our way of calculating. Maybe remove it?
         Rectangle r = getBounds();
-        if(p.getX() + this.velocityX > bound.getX() + bound.getWidth() || p.getX() + this.velocityX < bound.getX()){
+        if(p.getX()+r.width+ this.velocityX > bound.getX() + bound.getWidth() || p.getX() + this.velocityX < bound.getX()){
             this.setVelocity(-this.getVelocityX(), this.getVelocityY());
         }
-        if(p.getY() + this.velocityY < bound.getY() || p.getY() + this.velocityY > bound.getY() + bound.getHeight()){
+        if(p.getY() + this.velocityY < bound.getY() || p.getY()+r.height + this.velocityY > bound.getY() + bound.getHeight()){
             this.setVelocity(this.getVelocityX(), -this.getVelocityY());
         }
         Point newLocation = (Point)this.getLocation().clone();
@@ -124,7 +124,7 @@ public abstract class LocationChangingShape extends homework1.Shape implements h
      * @modifies Nothing
      * @effects Throws AssertionError if one of the conditions required in the Rep. Invariant is violated
      */
-    protected void checkRep() {
+    private void checkRep() {
         assert(_checkVelocity(this.velocityX)):"The X velocity is illegal!";
         assert(_checkVelocity(this.velocityY)):"The Y velocity is illegal!";
     }
@@ -135,7 +135,7 @@ public abstract class LocationChangingShape extends homework1.Shape implements h
      * @modifies Nothing
      * @effects Return true if -5 <= velocity <=5 && velocity != 0, false otherwise
      */
-    private boolean _checkVelocity(int velocity){
+    public boolean _checkVelocity(int velocity){
         return velocity != NO_VELOCITY && velocity >= MIN_VELOCITY && velocity <= MAX_VELOCITY;
     }
 

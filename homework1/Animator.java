@@ -1,11 +1,13 @@
 package homework1;
 
+import sun.java2d.pipe.ShapeSpanIterator;
+
 import java.awt.*;
+import java.awt.List;
 import java.awt.event.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import javax.swing.*;
+import javax.swing.Timer;
 
 /**
  * Main application class for exercise #1.
@@ -31,7 +33,7 @@ public class Animator extends JFrame implements ActionListener {
     // shapes that have been added to this
 
     // TODO (BOM): Add and initialize a container of shapes called shapes.
-    private Set<Shape> Shapes = new HashSet<>();
+    private Set<Shape> shapes = new HashSet<>();
     //FIXME: Added, not sure the data structure is the correct one
 
 
@@ -56,7 +58,13 @@ public class Animator extends JFrame implements ActionListener {
                 if (animationCheckItem.isSelected()) {
                     // TODO (BOM): Add code for making one animation step for all
                     //       shapes in this
-
+                    Iterator<Shape> shapeI = shapes.iterator();
+                    while(shapeI.hasNext()) {
+                        //Shape curr = shapeI.next();
+                        Rectangle bounds = new Rectangle(0 , 0,WINDOW_WIDTH, WINDOW_HEIGHT);
+                        Animatable currAnimatable = (Animatable)shapeI.next();
+                        currAnimatable.step(bounds);
+                    }
 
                     repaint();  // make sure that the shapes are redrawn
                 }
@@ -131,9 +139,13 @@ public class Animator extends JFrame implements ActionListener {
      */
     public void paint(Graphics g) {
         super.paint(g);
-
         //TODO (BOM): Add code for drawing all shapes in this
-
+        Graphics panel = getContentPane().getGraphics();
+        Iterator<Shape> iterator = shapes.iterator();
+        while(iterator.hasNext()) {
+            Shape curr = iterator.next();
+            curr.draw(panel);
+        }
 
     }
 
@@ -171,6 +183,21 @@ public class Animator extends JFrame implements ActionListener {
             //       1/10*WINDOW_WIDTH <= shape.width < 3/10*WINDOW_WIDTH &&
             //       1/10*WINDOW_HEIGHT <= shape.height < 3/10*WINDOW_HEIGHT
 
+            Dimension size = randomizeDimension();
+            Point location = randomizeLocation(size);
+            Color color = randomizeColor();
+
+            Shape s = null;
+            if(source.equals(triangleItem)) {
+                s = new LocationAndColorChangingTriangle(location, color, size);
+            } else if(source.equals(ovalItem)) {
+                s = new LocationChangingOval(location, color, size);
+            } else if(source.equals(numberedOvalItem)) {
+                s = new LocationChangingNumberedOval(location, color, size);
+            } else if(source.equals(sectorItem)) {
+                s = new AngleChangingSector(location, color, size, randomizeAngle(), randomizeAngle());
+            }
+            shapes.add(s);
 
             repaint();
         }
@@ -186,6 +213,39 @@ public class Animator extends JFrame implements ActionListener {
         }
     }
 
+    //TODO: spec
+    private Color randomizeColor() {
+        Random random = new Random();
+        float r = random.nextFloat();
+        float g = random.nextFloat();
+        float b = random.nextFloat();
+        Color rand = new Color(r, g, b);
+        return rand;
+    }
+
+    //TODO: Add spec and maybe change 359 and 0 into static members of the class(make them const)
+    private int randomizeAngle() {
+        Random random = new Random();
+        return random.nextInt(359 - 0 );
+    }
+
+    //TODO: spec
+    private Dimension randomizeDimension() {
+        Random random = new Random();
+        Dimension d = new Dimension();
+        d.width = random.nextInt(WINDOW_WIDTH *3/10 - WINDOW_WIDTH *1/10 ) +WINDOW_WIDTH *1/10;
+        d.height = random.nextInt(WINDOW_HEIGHT *3/10 - WINDOW_HEIGHT *1/10 ) +WINDOW_HEIGHT *1/10;
+        return d;
+    }
+
+    //TODO: spec
+    private Point randomizeLocation(Dimension size) {
+        Random random = new Random();
+        Point p = new Point();
+        p.x = random.nextInt(WINDOW_WIDTH - size.width - 0 + 1);
+        p.y = random.nextInt(WINDOW_HEIGHT - size.height - 0 + 1);
+        return p;
+    }
 
     /**
      * @effects Animator application.

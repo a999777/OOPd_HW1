@@ -42,10 +42,10 @@ public class AngleChangingSector extends Shape implements Animatable {
      *           supported by this).
      */
     @Override
-    public  void setSize(Dimension dimension) throws homework1.ImpossibleSizeException{
+    public void setSize(Dimension dimension) throws homework1.ImpossibleSizeException{
         checkRep();
         if(dimension.getHeight() <= 0 || dimension.getWidth() <= 0) {
-            throw homework1.ImpossibleSizeException(this.size);//Fixme make sure default dimension is ok
+            throw new ImpossibleSizeException(this.size);//Fixme make sure default dimension is ok
         }
         this.size = new Dimension(dimension);
         checkRep();
